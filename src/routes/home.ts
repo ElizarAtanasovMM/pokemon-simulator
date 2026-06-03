@@ -1,10 +1,10 @@
-import { Router } from "express";
-// import { createItem, getItems, getItemById, updateItem, deleteItem } from '../controllers/itemController';
+import { Router } from 'express';
 
 const router = Router();
 
-router.get("/", (req, res) => {
-  res.send({ data: "hello world e" });
+router.get('/', (req, res) => {
+  res.redirect('/simulate');
+  // res.send({ data: "Go to " });
 });
 
 export default router;
