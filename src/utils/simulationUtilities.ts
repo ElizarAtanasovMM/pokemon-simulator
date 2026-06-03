@@ -56,7 +56,12 @@ export const logBattleEvent = (
     attackerName: attacker.name,
     defenderName: defender.name,
     turn,
-    event: `Attacker ${attackerPokemon.name} attacked ${defenderPokemon.name} with ${attackerPokemon.attack} attack vs. ${defenderPokemon.defense} defense. Attacker team has ${formatTeam(attacker.pokemons)}; Defender team has ${formatTeam(defender.pokemons)}`,
+    winner:
+      filterFaintedPokemons(attacker.pokemons).length >
+      filterFaintedPokemons(defender.pokemons).length
+        ? attacker.name
+        : defender.name,
+    log: `Attacker ${attackerPokemon.name} attacked ${defenderPokemon.name} with ${attackerPokemon.attack} attack vs. ${defenderPokemon.defense} defense. Attacker team has ${formatTeam(attacker.pokemons)}; Defender team has ${formatTeam(defender.pokemons)}`,
   };
 };
 
@@ -77,8 +82,10 @@ export const updatePokemonStatus = (
  * @returns {string}
  */
 export const formatTeam = (pokemons: PokemonStats[]): string => {
-  return pokemons
-    .filter((p) => !p.isFainted)
+  return filterFaintedPokemons(pokemons)
     .map((m) => m.name)
     .join(';');
 };
+
+const filterFaintedPokemons = (pokemons: PokemonStats[]) =>
+  pokemons.filter((p) => !p.isFainted);

@@ -1,9 +1,9 @@
-import { Result, ValidationError } from "express-validator";
+import { Result, ValidationError } from 'express-validator';
 
 export function formatResponse(
   data: any,
   message?: string,
-  errors?: Result<ValidationError>,
+  errors?: Result<ValidationError>
 ) {
   return {
     message,

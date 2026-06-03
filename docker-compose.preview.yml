@@ -1,0 +1,16 @@
+services:
+
+  # ── Express API (preview / production-like) ────────────────────────────────
+  api:
+    build:
+      context: .
+      target: preview              # uses the leaner "preview" Dockerfile stage
+    container_name: express_preview
+    environment:
+      NODE_ENV: production
+    volumes: []                    # no bind-mount — runs only from the built image
+
+  # ── MongoDB 8.0 (Community) ───────────────────────────────────────────────
+  mongo:
+    image: mongodb/mongodb-community-server:8.0-ubi9
+    container_name: mongo_preview

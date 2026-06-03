@@ -23,6 +23,7 @@ const proccessBattleTurns = (attacker: Team, defender: Team): BattleEvent[] => {
   while (!isBattleFinished) {
     // Limit the battle
     if (turn > 100) {
+      isBattleFinished = true;
       console.log('Max turn limit reached, ending battle as a draw.');
       break;
     }
@@ -84,20 +85,13 @@ const proccessBattleTurns = (attacker: Team, defender: Team): BattleEvent[] => {
       attackerPokemon.id,
       localAttacker.pokemons
     );
-    localDefender.pokemons = localDefender.pokemons.map((p) =>
-      p.id === defenderPokemon.id ? { ...p } : p
+    localDefender.pokemons = updatePokemonStatus(
+      defenderPokemon.id,
+      localDefender.pokemons
     );
-    // TODO: Remove consoles
-    console.log('CURRENT TURN: ', turn);
-    console.log('ATTACKER before swap:', attackerPokemon);
-    console.log('DEFENDER before swap:', defenderPokemon);
 
     // SWAP Teams
     [localAttacker, localDefender] = [localDefender, localAttacker];
-
-    console.log('CURRENT TURN: ', turn);
-    console.log('ATTACKER before swap:', attackerPokemon);
-    console.log('DEFENDER before swap:', defenderPokemon);
 
     turn++;
   }

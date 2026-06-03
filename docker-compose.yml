@@ -1,0 +1,50 @@
+services:
+
+  # ── Express API (development) ──────────────────────────────────────────────
+  api:
+    build:
+      context: .
+      target: development          # uses the "development" Dockerfile stage
+    container_name: express_dev
+    restart: unless-stopped
+    env_file:
+      - .env                       # dotenv values are available inside the container
+    environment:
+      NODE_ENV: development
+      MONGO_URI: mongodb://mongo:27017/${MONGO_DB_NAME:-mydb}
+    ports:
+      - "${API_PORT:-3000}:3000"
+    volumes:
+      - .:/app                     # bind-mount: local edits are reflected instantly
+      - node_modules:/app/node_modules   # keep container node_modules isolated
+    depends_on:
+      mongo:
+        condition: service_healthy
+    networks:
+      - app_network
+
+  # ── MongoDB 8.0 (Community) ───────────────────────────────────────────────
+  mongo:
+    image: mongodb/mongodb-community-server:8.0-ubi9
+    container_name: mongo_dev
+    restart: unless-stopped
+    ports:
+      - "${MONGO_PORT:-27017}:27017"
+    volumes:
+      - mongo_data:/data/db       # persist data between container restarts
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - app_network
+
+volumes:
+  mongo_data:
+  node_modules:
+
+networks:
+  app_network:
+    driver: bridge

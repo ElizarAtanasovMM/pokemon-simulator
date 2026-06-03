@@ -20,7 +20,8 @@ export type BattleEvent = {
   attackerName: string;
   defenderName: string;
   turn: number;
-  event: string;
+  winner: string;
+  log: string;
 };
 
 /**
