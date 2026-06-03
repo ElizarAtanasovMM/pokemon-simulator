@@ -28,9 +28,7 @@ export const initDatabase = async () => {
   });
 
   try {
-    if (await !findOne(1)) {
-      await insertMany(mappedData);
-    }
+    await insertMany(mappedData);
     console.log('Records found... proceed without insert');
   } catch (e) {
     console.error('Error with many insertion', e);
