@@ -41,4 +41,4 @@ For the easiest and most reproducible setup, use Docker Compose to manage all se
 ## ✨ Usage Tips
 
 - `/simulate` will simulate a battle and return the logs of a current battle
-- `/history` will return the history of all the battles.
+- `/history/team1` will return the history of the battles. (team filter not yet implemented)
